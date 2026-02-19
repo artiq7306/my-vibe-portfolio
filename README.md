@@ -38,7 +38,7 @@ class ArtiqbaySaparniyazov:
         return {
             "telegram"  : "@artiq7306",
             "github"    : "github.com/artiq7306",
-            "linkedin"  : "linkedin.com/in/artiqbay-saparniyazov-4780552aa",
+            "linkedin"  : "linkedin.com/in/artiqbay-saparniyazov",
         }
 ```
 
@@ -176,7 +176,7 @@ Claude Sonnet     ████████████████░░░░�
 | Kanal | Link |
 |:---:|:---:|
 | 📬 Telegram | [@artiq7306](https://t.me/artiq7306) |
-| 💼 LinkedIn | [artiqbay-saparniyazov](https://linkedin.com/in/artiqbay-saparniyazov-4780552aa) |
+| 💼 LinkedIn | [artiqbay-saparniyazov](https://linkedin.com/in/artiqbay-saparniyazov) |
 | 🐙 GitHub | [artiq7306](https://github.com/artiq7306) |
 
 > 💡 **Yangi loyihalar va hamkorlik uchun doim ochiqman.**
