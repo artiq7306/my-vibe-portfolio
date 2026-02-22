@@ -525,34 +525,34 @@
         <!-- Form -->
         <div class="reveal glow-box rounded-sm p-8" style="background:#0D1017; transition-delay:0.2s">
           <div class="font-mono text-xs text-accent mb-6 tracking-widest">// XABAR YUBORISH</div>
-          <form onsubmit="handleSubmit(event)" class="space-y-5">
+          <form action="https://formspree.io/f/xqedyjvd" method="POST" onsubmit="handleSubmit(event)" class="space-y-5">
             <div>
               <label class="font-mono text-xs text-dim block mb-2">ISMINGIZ</label>
-              <input type="text" class="form-input w-full px-4 py-3 text-sm font-mono rounded-sm" placeholder="Ismingizni kiriting..."/>
+              <input type="text" name="name" required class="form-input w-full px-4 py-3 text-sm font-mono rounded-sm" placeholder="Ismingizni kiriting..."/>
             </div>
             <div>
               <label class="font-mono text-xs text-dim block mb-2">ELEKTRON POCHTA</label>
-              <input type="email" class="form-input w-full px-4 py-3 text-sm font-mono rounded-sm" placeholder="email@domain.uz"/>
+              <input type="email" name="email" required class="form-input w-full px-4 py-3 text-sm font-mono rounded-sm" placeholder="email@domain.uz"/>
             </div>
             <div>
               <label class="font-mono text-xs text-dim block mb-2">MAVZU</label>
-              <select class="form-input w-full px-4 py-3 text-sm font-mono rounded-sm" style="appearance:none; cursor:pointer;">
+              <select name="subject" class="form-input w-full px-4 py-3 text-sm font-mono rounded-sm" style="appearance:none; cursor:pointer;">
                 <option value="">Mavzuni tanlang...</option>
-                <option>AI loyiha hamkorligi</option>
-                <option>Maslahat olish</option>
-                <option>Freelance ish taklifi</option>
-                <option>Boshqa</option>
+                <option value="AI loyiha hamkorligi">AI loyiha hamkorligi</option>
+                <option value="Maslahat olish">Maslahat olish</option>
+                <option value="Freelance ish taklifi">Freelance ish taklifi</option>
+                <option value="Boshqa">Boshqa</option>
               </select>
             </div>
             <div>
               <label class="font-mono text-xs text-dim block mb-2">XABARINGIZ</label>
-              <textarea rows="4" class="form-input w-full px-4 py-3 text-sm font-mono rounded-sm resize-none" placeholder="Loyiha haqida batafsil yozing..."></textarea>
+              <textarea name="message" required rows="4" class="form-input w-full px-4 py-3 text-sm font-mono rounded-sm resize-none" placeholder="Loyiha haqida batafsil yozing..."></textarea>
             </div>
             <button type="submit" id="submit-btn" class="w-full py-3 bg-accent text-void font-display font-bold text-sm tracking-wider hover:bg-white transition-colors" style="border-radius:1px;">
               XABAR YUBORISH →
             </button>
             <div id="success-msg" class="hidden font-mono text-xs text-accent text-center py-2 border border-accent" style="background: rgba(78,234,255,0.05); border-radius:1px;">
-              ✓ Xabaringiz muvaffaqiyatli yuborildi!
+              ✓ Xabaringiz muvaffaqiyatli yuborildi! Tez orada javob beraman.
             </div>
           </form>
         </div>
@@ -573,14 +573,14 @@
   </footer>
 
   <script>
-    // Reveal on scroll
+    // Reveal on scroll (Mavjud)
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
-
-    // Project filter
+  
+    // Project filter (Mavjud)
     function filterProjects(cat, btn) {
       document.querySelectorAll('.filter-btn').forEach(b => {
         b.classList.remove('active-filter');
@@ -592,7 +592,7 @@
       btn.style.background = 'rgba(78,234,255,0.08)';
       btn.style.borderColor = '#4EEAFF';
       btn.style.color = '#4EEAFF';
-
+  
       document.querySelectorAll('.project-card').forEach(card => {
         if (cat === 'all' || card.dataset.category === cat) {
           card.style.display = 'block';
@@ -603,21 +603,45 @@
         }
       });
     }
-
-    // Form submit
-    function handleSubmit(e) {
+  
+    // YANGILANGAN Form submit (Real Formspree ulanishi)
+    async function handleSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('submit-btn');
       const msg = document.getElementById('success-msg');
+      const form = e.target; // Form elementini olish
+      const data = new FormData(form);
+  
       btn.textContent = 'YUBORILMOQDA...';
       btn.disabled = true;
-      setTimeout(() => {
-        btn.style.display = 'none';
-        msg.classList.remove('hidden');
-      }, 1200);
+  
+      // Formspree-ga ma'lumotni yuborish
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          // Muvaffaqiyatli bo'lsa
+          btn.style.display = 'none';
+          msg.classList.remove('hidden');
+          form.reset(); // Formani tozalash
+        } else {
+          // Xatolik bo'lsa
+          btn.textContent = 'XATOLIK YUZ BERDI';
+          btn.disabled = false;
+          alert("Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
+        }
+      }).catch(error => {
+        btn.textContent = 'XATOLIK YUZ BERDI';
+        btn.disabled = false;
+        alert("Internet aloqasini tekshiring.");
+      });
     }
-
-    // Smooth nav
+  
+    // Smooth nav (Mavjud)
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         e.preventDefault();
